@@ -73,7 +73,7 @@ export default function Chat() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer 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'
+          'Authorization': 'Bearer XXX'
         },
         body: JSON.stringify({
           model: 'openai/gpt-3.5-turbo',
