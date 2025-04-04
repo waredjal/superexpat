@@ -23,10 +23,16 @@ export default function Paywall() {
 
     setIsLoading(true);
     try {
+      console.log({packages})
+      console.log({isFreeTrialEnabled})
       const selectedPackage = packages.find(pkg => 
-        pkg.identifier === (isFreeTrialEnabled ? 'weekly_trial' : 'lifetime')
+        {
+          console.log({pkg})
+          return pkg.identifier === (isFreeTrialEnabled ? '$rc_weekly' : '$rc_lifetime')
+        }
       );
 
+      console.log({selectedPackage})
       if (!selectedPackage) {
         throw new Error('Selected package not found');
       }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 import { isBoltEnvironment } from './useEnvironment';
+import Purchases from 'react-native-purchases';
 
 // Define types for Purchases and related objects
 interface CustomerInfo {
@@ -22,7 +23,7 @@ interface Purchases {
 }
 
 const REVENUECAT_API_KEY = Platform.select({
-  ios: 'YOUR_IOS_API_KEY', // Replace with your actual RevenueCat iOS API key
+  ios: 'XXXX', // Replace with your actual RevenueCat iOS API key
   android: 'YOUR_ANDROID_API_KEY',
   default: '',
 });
@@ -31,7 +32,6 @@ export function useRevenueCat() {
   const [isReady, setIsReady] = useState(false);
   const [customerInfo, setCustomerInfo] = useState<CustomerInfo | null>(null);
   const [packages, setPackages] = useState<PurchasesPackage[]>([]);
-  const [Purchases, setPurchases] = useState<Purchases | null>(null);
   const isBolt = isBoltEnvironment();
 
   useEffect(() => {
@@ -42,14 +42,15 @@ export function useRevenueCat() {
       }
 
       try {
-        // Dynamically import react-native-purchases
-        const PurchasesModule = await import('react-native-purchases');
-        setPurchases(PurchasesModule.default);
-        await PurchasesModule.default.configure({ apiKey: REVENUECAT_API_KEY });
-        const info = await PurchasesModule.default.getCustomerInfo();
+        console.log("STARTING")
+        await Purchases.configure({ apiKey: REVENUECAT_API_KEY });
+        console.log("PURCHASE")
+        const info = await Purchases.getCustomerInfo();
+        console.log({info})
         setCustomerInfo(info);
         setIsReady(true);
       } catch (error) {
+        console.log({error})
         console.error('RevenueCat initialization error:', error);
         setIsReady(true); // Set ready even on error to allow fallback behavior
       }
